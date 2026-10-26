@@ -1,0 +1,1979 @@
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "Alza Trade API",
+    "description": "<p><b>List of changes from previous version:</b></p><ul><li><b>BREAKING CHANGE:</b> Changed response data structure of unshipped orders endpoint</li><li>Added new languages and listings endpoints</li><li>Added new GET order endpoint returning paged collection of orders</li></ul><p>For more information about API follow this <a class=\"url\" href=\"https://trade.alza.cz/info/navody\" target=\"_blank\">link</a></p><p>Total endpoint count: 9</p><p><b>Copyright Alza.cz a.s. © 2026</b></p>",
+    "version": "v2"
+  },
+  "paths": {
+    "/v2/languages": {
+      "get": {
+        "tags": [
+          "Languages"
+        ],
+        "summary": "Get a collection of acceptable languages.",
+        "parameters": [
+          {
+            "name": "accept-language",
+            "in": "header",
+            "description": "Language code",
+            "example": "cs"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Language.Models.Public.Language"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Language.Models.Public.Language"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Language.Models.Public.Language"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "IdentityServer": [
+              "marketplace_public"
+            ]
+          }
+        ]
+      }
+    },
+    "/v2/listings/categories": {
+      "get": {
+        "tags": [
+          "Listings"
+        ],
+        "summary": "Get a flat collection of all categories.",
+        "parameters": [
+          {
+            "name": "parentId",
+            "in": "query",
+            "description": "The category identifier from which all child categories in tree structure are to be retrieved.\n            The response includes the specified parent's direct children, as well as their children, recursively, until the bottom level of the hierarchy.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "accept-language",
+            "in": "header",
+            "description": "Language code",
+            "example": "cs"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Listing.Models.Public.CategoryCollectionItem"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Listing.Models.Public.CategoryCollectionItem"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Listing.Models.Public.CategoryCollectionItem"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "IdentityServer": [
+              "marketplace_public"
+            ]
+          }
+        ]
+      }
+    },
+    "/v2/listings/categories/tree": {
+      "get": {
+        "tags": [
+          "Listings"
+        ],
+        "summary": "Get a tree structure of all categories.",
+        "parameters": [
+          {
+            "name": "parentId",
+            "in": "query",
+            "description": "The category identifier from which all child categories in tree structure are to be retrieved.\n            The response includes the specified parent's direct children, as well as their children, recursively, until the bottom level of the hierarchy.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "accept-language",
+            "in": "header",
+            "description": "Language code",
+            "example": "cs"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Listing.Models.Public.CategoryTreeItem"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Listing.Models.Public.CategoryTreeItem"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Listing.Models.Public.CategoryTreeItem"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "IdentityServer": [
+              "marketplace_public"
+            ]
+          }
+        ]
+      }
+    },
+    "/v2/listings/manufacturers": {
+      "get": {
+        "tags": [
+          "Listings"
+        ],
+        "summary": "Get a collection of all manufacturers.",
+        "parameters": [
+          {
+            "name": "accept-language",
+            "in": "header",
+            "description": "Language code",
+            "example": "cs"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Alza.Trade.Api.Core.BaseModels.Public.NamedItem"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Alza.Trade.Api.Core.BaseModels.Public.NamedItem"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Alza.Trade.Api.Core.BaseModels.Public.NamedItem"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "IdentityServer": [
+              "marketplace_public"
+            ]
+          }
+        ]
+      }
+    },
+    "/v2/listings/parameters": {
+      "get": {
+        "tags": [
+          "Listings"
+        ],
+        "summary": "Get a collection of parameters.\nThe resulting collection can be filtered by category.\nIf no category query filter is used, the operation may take some time.\nIf the operation takes too long, a timeout status code is returned.",
+        "parameters": [
+          {
+            "name": "catId",
+            "in": "query",
+            "description": "Category identifiers (maximum of 10 identifiers is allowed)",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int32"
+              }
+            }
+          },
+          {
+            "name": "accept-language",
+            "in": "header",
+            "description": "Language code",
+            "example": "cs"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Listing.Models.Public.Parameter"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Listing.Models.Public.Parameter"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Listing.Models.Public.Parameter"
+                  }
+                }
+              }
+            }
+          },
+          "408": {
+            "description": "Request Timeout",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "IdentityServer": [
+              "marketplace_public"
+            ]
+          }
+        ]
+      }
+    },
+    "/v2/listings/seo-prefixes": {
+      "get": {
+        "tags": [
+          "Listings"
+        ],
+        "summary": "Get a collection of SEO prefixes.\nThe resulting collection can be filtered by category.",
+        "parameters": [
+          {
+            "name": "catId",
+            "in": "query",
+            "description": "Category identifiers (maximum of 10 identifiers is allowed)",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int32"
+              }
+            }
+          },
+          {
+            "name": "accept-language",
+            "in": "header",
+            "description": "Language code",
+            "example": "cs"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Listing.Models.Public.SeoPrefix"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Listing.Models.Public.SeoPrefix"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Listing.Models.Public.SeoPrefix"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "IdentityServer": [
+              "marketplace_public"
+            ]
+          }
+        ]
+      }
+    },
+    "/v2/listings/templates": {
+      "get": {
+        "tags": [
+          "Listings"
+        ],
+        "summary": "Get category templates (parameters and SEO prefixes) for product listing by given identifiers (the category identifiers are required).\nNot found categories will be excluded from returned collection.",
+        "parameters": [
+          {
+            "name": "catId",
+            "in": "query",
+            "description": "Category identifiers (maximum of 10 identifiers is allowed)",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int32"
+              }
+            }
+          },
+          {
+            "name": "accept-language",
+            "in": "header",
+            "description": "Language code",
+            "example": "cs"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Listing.Models.Public.CategoryListingTemplate"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Listing.Models.Public.CategoryListingTemplate"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Listing.Models.Public.CategoryListingTemplate"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "IdentityServer": [
+              "marketplace_public"
+            ]
+          }
+        ]
+      }
+    },
+    "/v2/orders": {
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Get a paged collection of orders.",
+        "parameters": [
+          {
+            "name": "createdFrom",
+            "in": "query",
+            "description": "The order created time to filter from",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "createdTo",
+            "in": "query",
+            "description": "The order created time to filter to",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "shipmentDepartureTimeFrom",
+            "in": "query",
+            "description": "The shipment departure time to filter from",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "shipmentDepartureTimeTo",
+            "in": "query",
+            "description": "The shipment departure time to filter to",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "description": "The order state\n\nNote: state 1 (LabelNotGenerated) and 2 (Unshipped) return all orders that also contain states 7 (Delayed) and 8 (DelayedRepeatedly).<p><i>Options:</i> <ul><li>0 = Pending</li><li>1 = LabelNotGenerated</li><li>2 = UnShipped</li><li>3 = Shipped</li><li>4 = Canceled</li><li>5 = CanceledAfterShipping</li><li>6 = Delivered</li><li>7 = Delayed</li><li>8 = DelayedRepeatedly</li><li>9 = ShippedLate</li><li>10 = CanceledLate</li><li>11 = DeliveredLate</li><li>12 = AwaitingCopayAmount</li><li>13 = AwaitingPreparation</li></ul></p>",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Alza.Trade.Enums.Order.Order"
+              }
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "The page number",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "The number of items on page (max 500)",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "sortDesc",
+            "in": "query",
+            "description": "The flag indicating whether items are sorted descending",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "sortKey",
+            "in": "query",
+            "description": "The sort key<p><i>Options:</i> <ul><li>0 = Id</li><li>1 = Created</li><li>2 = State</li><li>3 = ShipmentDepartureTime</li></ul></p>",
+            "schema": {
+              "$ref": "#/components/schemas/Alza.Trade.Enums.Order.OrderCollectionSo"
+            }
+          },
+          {
+            "name": "accept-language",
+            "in": "header",
+            "description": "Language code",
+            "example": "cs"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Alza.Trade.Api.Core.BaseModels.Public.PagedCollectionModel`1[[Order.Models.Public.V2.OrderCollectionItemModel, Alza.Trade.Api, Version=7.6.0.0, Culture=neutral, PublicKeyToken=n"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Alza.Trade.Api.Core.BaseModels.Public.PagedCollectionModel`1[[Order.Models.Public.V2.OrderCollectionItemModel, Alza.Trade.Api, Version=7.6.0.0, Culture=neutral, PublicKeyToken=n"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Alza.Trade.Api.Core.BaseModels.Public.PagedCollectionModel`1[[Order.Models.Public.V2.OrderCollectionItemModel, Alza.Trade.Api, Version=7.6.0.0, Culture=neutral, PublicKeyToken=n"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "IdentityServer": [
+              "marketplace_public"
+            ]
+          }
+        ]
+      }
+    },
+    "/v2/orders/unshipped": {
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Get a collection of unshipped orders.",
+        "parameters": [
+          {
+            "name": "shipmentDepartureTimeFrom",
+            "in": "query",
+            "description": "The shipment departure time to filter from",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "shipmentDepartureTimeTo",
+            "in": "query",
+            "description": "The shipment departure time to filter to",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "accept-language",
+            "in": "header",
+            "description": "Language code",
+            "example": "cs"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDe"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Order.Models.Public.V2.OrderCollectionItem"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Order.Models.Public.V2.OrderCollectionItem"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Order.Models.Public.V2.OrderCollectionItem"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "IdentityServer": [
+              "marketplace_public"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Alza.Trade.Api.Core.BaseModels.Public.NamedItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The identifier",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Identifier and name model"
+      },
+      "Alza.Trade.Api.Core.BaseModels.Public.PagedCollectionModel`1[[Order.Models.Public.V2.OrderCollectionItemModel, Alza.Trade.Api, Version=7.6.0.0, Culture=neutral, PublicKeyToken=n": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Order.Models.Public.V2.OrderCollectionItem"
+            },
+            "description": "The items of the current page",
+            "nullable": true
+          },
+          "totalItems": {
+            "type": "integer",
+            "description": "The total items",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Paged collection model, encapsulates data for the grid, with items of the current page and the total items count"
+      },
+      "Alza.Trade.Enums.Order.Order": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "type": "integer",
+        "description": "<p>Options: <ul><li>0 = Pending</li><li>1 = LabelNotGenerated</li><li>2 = UnShipped</li><li>3 = Shipped</li><li>4 = Canceled</li><li>5 = CanceledAfterShipping</li><li>6 = Delivered</li><li>7 = Delayed</li><li>8 = DelayedRepeatedly</li><li>9 = ShippedLate</li><li>10 = CanceledLate</li><li>11 = DeliveredLate</li><li>12 = AwaitingCopayAmount</li><li>13 = AwaitingPreparation</li></ul></p>",
+        "format": "int32"
+      },
+      "Alza.Trade.Enums.Order.OrderCollectionSo": {
+        "enum": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "type": "integer",
+        "description": "<p>Options: <ul><li>0 = Id</li><li>1 = Created</li><li>2 = State</li><li>3 = ShipmentDepartureTime</li></ul></p>",
+        "format": "int32"
+      },
+      "Alza.Trade.Enums.Order.OrderPackageSorting": {
+        "enum": [
+          0,
+          1,
+          2
+        ],
+        "type": "integer",
+        "description": "<p>Options: <ul><li>0 = RegularDirect</li><li>1 = Linehaul</li><li>2 = CrossLC</li></ul></p>",
+        "format": "int32"
+      },
+      "Alza.Trade.Enums.Product.Paramete": {
+        "enum": [
+          0,
+          1,
+          2
+        ],
+        "type": "integer",
+        "description": "<p>Options: <ul><li>0 = Numeric</li><li>1 = Enum</li><li>2 = MultiChoiceEnum</li></ul></p>",
+        "format": "int32"
+      },
+      "Language.Models.Public.Language": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "The ISO code",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "The name",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Language model"
+      },
+      "Listing.Models.Public.CategoryCollectionItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Category identifier",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the category",
+            "nullable": true
+          },
+          "fullName": {
+            "type": "string",
+            "description": "Full hierarchical path of the category within the tree structure separated by delimiter '|'.",
+            "nullable": true
+          },
+          "isDisabled": {
+            "type": "boolean",
+            "description": "Determines whether the category is disabled for product listing"
+          },
+          "isLocked": {
+            "type": "boolean",
+            "description": "Determines whether the category is locked to you for product listing (support can be contacted for unlocking)"
+          },
+          "parentId": {
+            "type": "integer",
+            "description": "Parent category identifier",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Category collection item model"
+      },
+      "Listing.Models.Public.CategoryListingTemplate": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Category identifier",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the category",
+            "nullable": true
+          },
+          "fullName": {
+            "type": "string",
+            "description": "Full hierarchical path of the category within the tree structure separated by delimiter '|'.",
+            "nullable": true
+          },
+          "isDisabled": {
+            "type": "boolean",
+            "description": "Determines whether the category is disabled for product listing"
+          },
+          "isLocked": {
+            "type": "boolean",
+            "description": "Determines whether the category is locked to you for product listing (support can be contacted for unlocking)"
+          },
+          "parameters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Listing.Models.Public.CategoryParameter"
+            },
+            "description": "Category parameters",
+            "nullable": true
+          },
+          "seoPrefixes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Listing.Models.Public.SeoPrefixBase"
+            },
+            "description": "Most commonly used seo prefixes",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Category product listing template model"
+      },
+      "Listing.Models.Public.CategoryParameter": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Parameter identifier",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the parameter",
+            "nullable": true
+          },
+          "type": {
+            "$ref": "#/components/schemas/Alza.Trade.Enums.Product.Paramete"
+          },
+          "defaultUnitId": {
+            "type": "integer",
+            "description": "Default unit identifier (only in the case of numeric parameter type)",
+            "format": "int32",
+            "nullable": true
+          },
+          "isRequired": {
+            "type": "boolean",
+            "description": "Determines whether the parameter is required or optional"
+          },
+          "maxValue": {
+            "type": "number",
+            "description": "Maximum allowed value in default unit (only in the case of numeric parameter type)",
+            "format": "double",
+            "nullable": true
+          },
+          "minValue": {
+            "type": "number",
+            "description": "Minimum allowed value in default unit (only in the case of numeric parameter type)",
+            "format": "double",
+            "nullable": true
+          },
+          "allowedUnits": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Alza.Trade.Api.Core.BaseModels.Public.NamedItem"
+            },
+            "description": "Allowed units (only in the case of numeric parameter type)",
+            "nullable": true
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Alza.Trade.Api.Core.BaseModels.Public.NamedItem"
+            },
+            "description": "Allowed values (only in the case of enum or multi-choice enum parameter type)",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Category parameter model"
+      },
+      "Listing.Models.Public.CategoryTreeItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Category identifier",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the category",
+            "nullable": true
+          },
+          "fullName": {
+            "type": "string",
+            "description": "Full hierarchical path of the category within the tree structure separated by delimiter '|'.",
+            "nullable": true
+          },
+          "isDisabled": {
+            "type": "boolean",
+            "description": "Determines whether the category is disabled for product listing"
+          },
+          "isLocked": {
+            "type": "boolean",
+            "description": "Determines whether the category is locked to you for product listing (support can be contacted for unlocking)"
+          },
+          "children": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Listing.Models.Public.CategoryTreeItem"
+            },
+            "description": "Child items of a category in a tree structure",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Category tree item model"
+      },
+      "Listing.Models.Public.Parameter": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Parameter identifier",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the parameter",
+            "nullable": true
+          },
+          "type": {
+            "$ref": "#/components/schemas/Alza.Trade.Enums.Product.Paramete"
+          },
+          "defaultUnitId": {
+            "type": "integer",
+            "description": "Default unit identifier (only in the case of numeric parameter type)",
+            "format": "int32",
+            "nullable": true
+          },
+          "allowedUnits": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Alza.Trade.Api.Core.BaseModels.Public.NamedItem"
+            },
+            "description": "Allowed units (only in the case of numeric parameter type)",
+            "nullable": true
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Alza.Trade.Api.Core.BaseModels.Public.NamedItem"
+            },
+            "description": "Allowed values (only in the case of enum or multi-choice enum parameter type)",
+            "nullable": true
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Listing.Models.Public.ParameterCategory"
+            },
+            "description": "A collection of categories in which parameter appears",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Parameter model"
+      },
+      "Listing.Models.Public.ParameterCategory": {
+        "type": "object",
+        "properties": {
+          "categoryId": {
+            "type": "integer",
+            "description": "Category identifier",
+            "format": "int32"
+          },
+          "isRequired": {
+            "type": "boolean",
+            "description": "Determines whether the parameter is required or optional"
+          },
+          "maxValue": {
+            "type": "number",
+            "description": "Maximum allowed value in default unit (only in the case of numeric parameter type)",
+            "format": "double",
+            "nullable": true
+          },
+          "minValue": {
+            "type": "number",
+            "description": "Minimum allowed value in default unit (only in the case of numeric parameter type)",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Parameter category model"
+      },
+      "Listing.Models.Public.SeoPrefix": {
+        "type": "object",
+        "properties": {
+          "categories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Listing.Models.Public.SeoPrefixCategory"
+            },
+            "description": "A collection of categories in which SEO prefix appears",
+            "nullable": true
+          },
+          "id": {
+            "type": "integer",
+            "description": "SEO prefix identifier",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the SEO prefix",
+            "nullable": true
+          },
+          "ingredientsEnabled": {
+            "type": "boolean",
+            "description": "Indicates whether ingredients are required"
+          }
+        },
+        "additionalProperties": false,
+        "description": "SEO prefix model"
+      },
+      "Listing.Models.Public.SeoPrefixBase": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "SEO prefix identifier",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the SEO prefix",
+            "nullable": true
+          },
+          "ingredientsEnabled": {
+            "type": "boolean",
+            "description": "Indicates whether ingredients are required"
+          }
+        },
+        "additionalProperties": false,
+        "description": "SEO prefix base model"
+      },
+      "Listing.Models.Public.SeoPrefixCategory": {
+        "type": "object",
+        "properties": {
+          "categoryId": {
+            "type": "integer",
+            "description": "Category identifier",
+            "format": "int32"
+          },
+          "occurence": {
+            "type": "number",
+            "description": "Percentage occurrence of the SEO prefix in the category",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false,
+        "description": "SEO prefix category model"
+      },
+      "Microsoft.AspNetCore.Mvc.ProblemDe": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": { }
+      },
+      "Order.Models.Public.V2.Address": {
+        "type": "object",
+        "properties": {
+          "customerName": {
+            "type": "string",
+            "description": "Customer name",
+            "nullable": true
+          },
+          "companyName": {
+            "type": "string",
+            "description": "Company name",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "description": "City",
+            "nullable": true
+          },
+          "street": {
+            "type": "string",
+            "description": "Street",
+            "nullable": true
+          },
+          "zipCode": {
+            "type": "string",
+            "description": "Zip code",
+            "nullable": true
+          },
+          "countryCode": {
+            "type": "string",
+            "description": "Country code",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "description": "Email",
+            "nullable": true
+          },
+          "phone": {
+            "type": "string",
+            "description": "Phone",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Delivery address model"
+      },
+      "Order.Models.Public.V2.Item": {
+        "type": "object",
+        "properties": {
+          "sku": {
+            "type": "string",
+            "description": "SKU",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "Name",
+            "nullable": true
+          },
+          "unitPrice": {
+            "type": "number",
+            "description": "Unit price",
+            "format": "double",
+            "nullable": true
+          },
+          "unitCopyrightFee": {
+            "type": "number",
+            "description": "Unit copyright fee",
+            "format": "double",
+            "nullable": true
+          },
+          "unitRecyclingFee": {
+            "type": "number",
+            "description": "Unit recycling fee",
+            "format": "double",
+            "nullable": true
+          },
+          "unitCurrency": {
+            "type": "string",
+            "description": "Unit currency",
+            "nullable": true
+          },
+          "quantity": {
+            "type": "integer",
+            "description": "Quantity",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Order item model"
+      },
+      "Order.Models.Public.V2.OrderCollectionItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Order identifier",
+            "nullable": true
+          },
+          "created": {
+            "type": "string",
+            "description": "Created date",
+            "format": "date-time"
+          },
+          "state": {
+            "$ref": "#/components/schemas/Alza.Trade.Enums.Order.Order"
+          },
+          "shipmentDeliveryType": {
+            "type": "string",
+            "description": "Shipment delivery type",
+            "nullable": true
+          },
+          "shipmentDepartureTime": {
+            "type": "string",
+            "description": "Shipment departure time",
+            "format": "date-time",
+            "nullable": true
+          },
+          "deliveryBranch": {
+            "type": "string",
+            "description": "Delivery branch",
+            "nullable": true
+          },
+          "productsCount": {
+            "type": "integer",
+            "description": "Products count",
+            "format": "int32"
+          },
+          "totalItemsCount": {
+            "type": "integer",
+            "description": "Total items count",
+            "format": "int32"
+          },
+          "totalOrderPrice": {
+            "type": "number",
+            "description": "Total order price",
+            "format": "double",
+            "nullable": true
+          },
+          "totalOrderPriceCurrency": {
+            "type": "string",
+            "description": "Total order currency",
+            "nullable": true
+          },
+          "totalOrderPriceWithVAT": {
+            "type": "number",
+            "description": "Total order price with VAT",
+            "format": "double",
+            "nullable": true
+          },
+          "totalOrderPriceWithVATCurrency": {
+            "type": "string",
+            "description": "Total order price with VAT currency",
+            "nullable": true
+          },
+          "cashOnDeliveryValue": {
+            "type": "number",
+            "description": "COD value",
+            "format": "double",
+            "nullable": true
+          },
+          "cashOnDeliveryValueCurrency": {
+            "type": "string",
+            "description": "COD currency",
+            "nullable": true
+          },
+          "totalCopyrightFee": {
+            "type": "number",
+            "description": "Total copyright fee",
+            "format": "double",
+            "nullable": true
+          },
+          "totalCopyrightFeeCurrency": {
+            "type": "string",
+            "description": "Total copyright fee currency",
+            "nullable": true
+          },
+          "totalRecyclingFee": {
+            "type": "number",
+            "description": "Total recycling fee",
+            "format": "double",
+            "nullable": true
+          },
+          "totalRecyclingFeeCurrency": {
+            "type": "string",
+            "description": "Total recycling fee currency",
+            "nullable": true
+          },
+          "parcelShopBranchCode": {
+            "type": "string",
+            "description": "Code of the parcel shop branch (if applicable).",
+            "nullable": true
+          },
+          "firstAcceptedShipmentDeparture": {
+            "type": "string",
+            "description": "First accepted shipment departure",
+            "format": "date-time",
+            "nullable": true
+          },
+          "deliveryAddress": {
+            "$ref": "#/components/schemas/Order.Models.Public.V2.Address"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Order.Models.Public.V2.Item"
+            },
+            "description": "Order items",
+            "nullable": true
+          },
+          "packages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Order.Models.Public.V2.Package"
+            },
+            "description": "Packages",
+            "nullable": true
+          },
+          "packageSortingGroup": {
+            "$ref": "#/components/schemas/Alza.Trade.Enums.Order.OrderPackageSorting"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Order model"
+      },
+      "Order.Models.Public.V2.Package": {
+        "type": "object",
+        "properties": {
+          "packageNumber": {
+            "type": "string",
+            "description": "Package number",
+            "nullable": true
+          },
+          "weight": {
+            "type": "number",
+            "description": "Weight",
+            "format": "double"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Order.Models.Public.V2.PackageItem"
+            },
+            "description": "Order items in package",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Package model"
+      },
+      "Order.Models.Public.V2.PackageItem": {
+        "type": "object",
+        "properties": {
+          "sku": {
+            "type": "string",
+            "description": "SKU",
+            "nullable": true
+          },
+          "quantity": {
+            "type": "integer",
+            "description": "Quantity",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Package item model"
+      }
+    },
+    "securitySchemes": {
+      "IdentityServer": {
+        "type": "oauth2",
+        "description": "Alza identity",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": "https://identity.alza.cz/connect/token",
+            "scopes": { }
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Languages"
+    },
+    {
+      "name": "Listings"
+    },
+    {
+      "name": "Orders"
+    }
+  ],
+  "totalEndpoints": 9
+}

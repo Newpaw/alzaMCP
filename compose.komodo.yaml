@@ -1,0 +1,28 @@
+services:
+  alza-mcp:
+    image: ghcr.io/newpaw/alzamcp:${IMAGE_TAG:-latest}
+    container_name: alza-mcp
+    restart: unless-stopped
+    init: true
+    environment:
+      ALZA_CLIENT_ID: ${ALZA_CLIENT_ID:-}
+      ALZA_CLIENT_SECRET: ${ALZA_CLIENT_SECRET:-}
+      ALZA_SCOPE: ${ALZA_SCOPE:-marketplace_public}
+      ALZA_LANGUAGE: ${ALZA_LANGUAGE:-cs}
+      MCP_API_KEY: ${MCP_API_KEY:?Set a random service key in Komodo}
+    expose: ["8000"]
+    networks:
+      cloudflare:
+        aliases: [alza-mcp]
+    read_only: true
+    tmpfs:
+      - /tmp:size=32m,mode=1777
+    security_opt:
+      - no-new-privileges:true
+    cap_drop: [ALL]
+    mem_limit: 384m
+    cpus: 1.0
+networks:
+  cloudflare:
+    external: true
+    name: cloudflare
