@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "Alza Trade API v2 MCP server"
 requires-python = ">=3.12"
 dependencies = [
-    "fastmcp>=3.4.11,<4",
+    "fastmcp>=3.4.11,<5",
     "httpx[socks]>=0.28,<1",
     "pydantic-settings>=2.10,<3",
 ]
